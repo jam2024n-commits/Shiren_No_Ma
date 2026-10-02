@@ -1,6 +1,5 @@
 extends Node2D
 
-const MAZE_SCENE := "res://scenes/maze_backrooms.tscn"
 const NEXT_STAGE := "res://scenes/stage_1.tscn"
 
 @onready var _goal: Area2D = $Goal
@@ -25,4 +24,3 @@ func _on_goal_reached() -> void:
 
 func _on_triple_clip_completed() -> void:
 	BugRegistry.trigger("triple_clip")
-	ViewSwitcher.enter(MAZE_SCENE, _player.global_position)

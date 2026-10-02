@@ -3,7 +3,7 @@
     {
       "id": "wall_clip",
       "title": "しゃがみダッシュで壁抜け",
-      "files": ["scripts/player.gd", "scripts/fp_player.gd", "scripts/top_down_player.gd"],
+      "files": ["scripts/player.gd"],
       "trigger": "しゃがみ中にダッシュ",
       "effect": "壁を通過できる",
       "requires": [],
@@ -18,7 +18,7 @@
       "title": "同じ壁を右・左・右と3回抜ける",
       "files": ["scripts/triple_clip_gate.gd"],
       "trigger": "特定の壁をwall_clipで右→左→右と連続で3回通過する",
-      "effect": "1人称3Dの迷路シーンへ切り替わる",
+      "effect": "（行き先の3D迷路は 2026-10-02 に削除。今は発見の記録だけ）",
       "requires": ["wall_clip"],
       "route": "bug",
       "stage": "tutorial",
@@ -27,43 +27,17 @@
       "note": "例。座標や誘導（見た目のヒント等）は未調整"
     },
     {
-      "id": "maze_goal_clip",
-      "title": "迷路のゴール前の壁をwall_clipで抜ける",
-      "files": ["scripts/maze_backrooms.gd"],
-      "trigger": "迷路のゴール前の、薄く光る壁を、しゃがみ（ゴール前でのみ可能）+ダッシュで通過する",
-      "effect": "暗転して、見下ろし視点の2D迷路へ切り替わる",
-      "requires": ["triple_clip"],
-      "route": "bug",
-      "stage": "tutorial",
-      "hint": "ゴール付近の壁だけ薄く光っている",
-      "discovery": "undetectable",
-      "note": "ただの壁抜けなので発見数・BUG図鑑には数えない"
-    },
-    {
-      "id": "topdown_maze_clip",
-      "title": "見下ろし迷路のへこんだ壁を壁抜けしてゴールする",
-      "files": ["scripts/maze_topdown.gd"],
-      "trigger": "正方形の2D迷路の真ん中の区画から、4辺にある「へこんだ壁」のうちゴールにつながる1か所を、しゃがみ（Ctrl / C）+ダッシュで抜けてゴールに着く",
-      "effect": "暗転して、縦シューティングが始まる",
-      "requires": ["maze_goal_clip"],
-      "route": "bug",
-      "stage": "tutorial",
-      "hint": "壁抜けできる壁は、周りの壁と同じ色だが数ピクセルへこんでいる",
-      "discovery": "undetectable",
-      "note": "ただの壁抜けなので発見数・BUG図鑑には数えない"
-    },
-    {
       "id": "bullet_clip",
       "title": "しゃがみダッシュで黄色い弾をすり抜ける",
       "files": ["scripts/shooter.gd"],
       "trigger": "シューティングで、しゃがみ（S）+ダッシュ中に黄色い弾と重なる",
       "effect": "黄色い弾の当たり判定が無効になり、隙間のない弾の列を抜けられる（赤い弾は抜けられない）",
-      "requires": ["topdown_maze_clip"],
+      "requires": [],
       "route": "bug",
       "stage": "tutorial",
       "hint": "黄色い弾は隙間なく並んで飛んでくるので、普通にはよけられない",
       "discovery": "normal",
-      "note": "ボスを倒すとアイテム castle_door_key（仮。プロンプト.mdの「開かずの扉」を想定）を入手して元のステージへ戻る。発見数に数えるかは仮"
+      "note": "入口だった迷路は 2026-10-02 に削除したため、今はどこからも入れない。ボスを倒すとアイテム castle_door_key（仮。プロンプト.mdの「開かずの扉」を想定）を入手して元のステージへ戻る。発見数に数えるかは仮"
     },
     {
       "id": "boundary_clip",

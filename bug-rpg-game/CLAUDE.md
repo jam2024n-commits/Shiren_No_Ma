@@ -117,17 +117,16 @@
 
 ## 方針変更前の実装（すべて保留。削除しない）
 
-以下は方針変更前の決定事項と、それに対応する既存の実装。今は使わないが、削除しない。
+以下は方針変更前の決定事項と、それに対応する既存の実装。今は使わないが、削除しない（迷路だけは 2026-10-02 に削除した）。
 
 - 偽バグの管理：一覧 `data/fake_bugs.json`（項目：id、title、files、trigger、effect、requires、route、stage、hint、discovery、note）とコードのタグ `# FAKE_BUG: id` の併用。発動は `BugRegistry.trigger("id")`（Autoload）で記録。ずれの検査は `godot --headless --path . --script res://tools/check_fake_bugs.gd`
 - バグ発見の判定：初めて「成功」したときに発見扱い（`discovery` が `normal` のもののみ）。「バグを発見！」とテントウムシの演出があったが、方針変更後に演出は削除した（発見の記録と BUG 図鑑のテントウムシ表示は残っている）
 - 戦闘：コマンド式（ターン制）。敵の絵全体が画面に映った瞬間に暗転して戦闘画面へ（たたかう・ぼうぎょ・にげる）。倒した敵は `WorldState`（Autoload）に記録し、復活しない
 - ポーズ：Esc でメニュー（RESUME / BUG / EXIT）。方針変更後は「タイトルへ」だけを表示し、この3つは非表示にしている（削除はしていない）
 - BUG 図鑑：発見済みはテントウムシ、未発見はシルエット。表示名は `scripts/bug_book.gd` の `ENTRIES`。1ページ8枠
-- チュートリアル（`scenes/stage_tutorial.tscn`）：通常ルートとバグルートの分岐。特定の壁を右→左→右と3回壁抜けすると3D迷路へ
-- 3D迷路（`scenes/maze_backrooms.tscn`）：1人称、バックルームズ風、モノクロ（`shaders/monochrome.gdshader`）。ゴール前の光る壁だけ壁抜けでき、しゃがみ（Ctrl / C）はゴール前の区画のみ
-- 見下ろしの2D迷路（`scenes/maze_topdown.tscn`）：正方形。真ん中の区画から4辺に壁抜けで出られ、ゴールにつながるのは1区画だけ。抜けられる壁は1ピクセルへこんでいる。形は `LAYOUT`（ASCII）で編集
-- 縦シューティング（`scenes/shooter.tscn`）：左右移動のみ、Space で射撃。赤い弾はよける。隙間のない黄色い弾の列は、しゃがみ（S）＋ダッシュでだけすり抜けられる。ボスを倒すとカギ（`castle_door_key`）を入手して元の場所へ戻る
+- チュートリアル（`scenes/stage_tutorial.tscn`）：通常ルートとバグルートの分岐。特定の壁を右→左→右と3回壁抜けすると発見の記録だけ残る（行き先だった3D迷路は削除済み）
+- 3D迷路・見下ろしの2D迷路：2026-10-02 に軽量化のため削除した（シーン・スクリプト・`monochrome.gdshader`・入力 `fp_crouch`）。必要になったら git の履歴から戻す
+- 縦シューティング（`scenes/shooter.tscn`。入口の迷路を削除したので今はどこからも入れない）：左右移動のみ、Space で射撃。赤い弾はよける。隙間のない黄色い弾の列は、しゃがみ（S）＋ダッシュでだけすり抜けられる。ボスを倒すとカギ（`castle_door_key`）を入手して元の場所へ戻る
 - 調べる操作：E キー（「E: CHECK」などの案内）。看板は `scenes/sign.tscn`、文章は `TextPrompt.show_message`（E / Enter / Esc で閉じる）
 - 入力欄：共通の `TextPrompt`（Autoload）。開いている間はゲームを止め、Esc で閉じる。コマンド欄は端末を調べたときだけ、パスワード欄は扉ごと
 - `stage_1`：扉は合言葉 OPEN で開き、DEBUG で無限ループの部屋 `stage_loop` へ。扉の手前に看板2つ
