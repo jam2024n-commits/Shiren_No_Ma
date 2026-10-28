@@ -6,7 +6,6 @@ extends Node
 signal item_added(id: String)
 
 const DISPLAY_NAMES := {
-	"castle_door_key": "カギ",
 	"beginning_staff": "はじまりのつえ",
 	"mage_robe": "魔導士のローブ",
 	"ancient_buckler": "風神の盾",

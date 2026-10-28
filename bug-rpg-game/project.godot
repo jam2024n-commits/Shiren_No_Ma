@@ -18,12 +18,9 @@ config/icon="res://icon.svg"
 [autoload]
 
 BugRegistry="*res://scripts/bug_registry.gd"
-PlayerStats="*res://scripts/player_stats.gd"
 GameUI="*res://scenes/game_ui.tscn"
-BattleManager="*res://scenes/battle_manager.tscn"
 Inventory="*res://scripts/inventory.gd"
 ViewSwitcher="*res://scenes/view_switcher.tscn"
-WorldState="*res://scripts/world_state.gd"
 TextPrompt="*res://scenes/text_prompt.tscn"
 Bgm="*res://scripts/bgm_player.gd"
 Settings="*res://scripts/settings.gd"

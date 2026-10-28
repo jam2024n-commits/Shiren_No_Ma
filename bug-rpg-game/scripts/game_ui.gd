@@ -13,10 +13,8 @@ const NO_PAUSE_GROUP := "no_pause_menu"
 const TRIAL_GROUP := "trial_floor"
 const TITLE_BUTTON_TEXT := "タイトルへ"
 const TRIAL_EXIT_TEXT := "試練の間を出る"
-const KEY_ICON := preload("res://scripts/key_icon.gd")
 const ORB_ICON := preload("res://scripts/orb_icon.gd")
 const ITEM_ICONS := {
-	"castle_door_key": KEY_ICON,
 	"beginning_staff": ORB_ICON,
 	"mage_robe": ORB_ICON,
 	"ancient_buckler": ORB_ICON,
@@ -28,10 +26,6 @@ const ITEM_ICONS := {
 @onready var _title_button: Button = $PauseMenu/Menu/TitleButton
 @onready var _settings_button: Button = $PauseMenu/Menu/SettingsButton
 @onready var _settings_menu = $PauseMenu/SettingsMenu  # settings_menu.gd（タイトルの「設定」と同じもの）
-@onready var _resume_button: Button = $PauseMenu/Menu/ResumeButton
-@onready var _bug_button: Button = $PauseMenu/Menu/BugButton
-@onready var _exit_button: Button = $PauseMenu/Menu/ExitButton
-@onready var _bug_book: Control = $PauseMenu/BugBook
 @onready var _item_dim: ColorRect = $ItemDim
 @onready var _item_get: Control = $ItemGet
 @onready var _item_icon: PixelIcon = $ItemGet/Icon
@@ -49,10 +43,6 @@ func _ready() -> void:
 	_title_button.pressed.connect(_go_to_title)
 	_settings_button.pressed.connect(_settings_menu.open)
 	_settings_menu.closed.connect(_settings_button.grab_focus)
-	_resume_button.pressed.connect(_set_paused.bind(false))
-	_bug_button.pressed.connect(_open_bug_book)
-	_exit_button.pressed.connect(get_tree().quit)
-	_bug_book.closed.connect(_close_bug_book)
 	Inventory.item_added.connect(_on_item_added)
 
 
@@ -64,17 +54,13 @@ func _input(event: InputEvent) -> void:
 		var scene := get_tree().current_scene
 		if scene and scene.is_in_group(NO_PAUSE_GROUP):
 			return
-		if _bug_book.visible:
-			_close_bug_book()
-		else:
-			_set_paused(not get_tree().paused)
+		_set_paused(not get_tree().paused)
 		get_viewport().set_input_as_handled()
 
 
 func _set_paused(paused: bool) -> void:
 	get_tree().paused = paused
 	_pause_menu.visible = paused
-	_bug_book.visible = false
 	_settings_menu.visible = false
 	_menu.visible = true
 	if paused:
@@ -88,18 +74,6 @@ func _go_to_title() -> void:
 	ViewSwitcher.go_to(TITLE_SCENE)
 
 
-func _open_bug_book() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	_menu.visible = false
-	_bug_book.open()
-
-
-func _close_bug_book() -> void:
-	_bug_book.visible = false
-	_menu.visible = true
-	_bug_button.grab_focus()
-
-
 # アイテム獲得の演出。演出の間はゲーム内の時間を止め、画面を暗くして、獲得したことをはっきり見せる
 func _on_item_added(id: String) -> void:
 	_item_text.text = Inventory.acquire_message(id)
@@ -109,7 +83,7 @@ func _on_item_added(id: String) -> void:
 	if image:
 		_item_image.texture = image
 	else:
-		var source: PixelIcon = ITEM_ICONS.get(id, KEY_ICON).new()
+		var source: PixelIcon = ITEM_ICONS.get(id, ORB_ICON).new()
 		_item_icon.pattern = source.pattern
 		_item_icon.colors = source.colors
 		_item_icon.queue_redraw()
